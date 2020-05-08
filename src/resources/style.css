@@ -1,0 +1,15 @@
+.oneTinyModal {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: -99;
+    color: white;
+    padding: 20px;
+    opacity: 0;
+    bottom: 15px;
+    right: 15px;
+    font-size: 15px;
+    background-color: #001d29d9;
+    border-radius: 10px;
+    transition: opacity 0.5s ease-in-out;
+}
