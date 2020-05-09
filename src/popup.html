@@ -3,7 +3,8 @@
     </head>
     <body>
         <!-- finish styles -->
-        <div class="container">
+        <!-- fake login interaction with background script -->
+        <div class="container logInView">
             <div class="col-md-7 col-lg-5">
                 <h1>1 Tiny Link Login</h1>
                     <div class="row">
@@ -14,18 +15,22 @@
                             <input type="password" placeholder="Password" name="password" id="password">
                         </div>
                         <div class="col-md-12">
-                            <button class="btn btn--primary type--uppercase" type="submit">Login</button>
+                            <button class="btn btn--primary type--uppercase" id='loginBtn' type="submit">Login</button>
                         </div>
                     </div>
                 <span class="type--fine-print block">Dont have an account yet?
                     <a href="https://1tinylink.com/register" target="popup">Create account</a>
                 </span>
             </div>
-            <!-- fake login interaction with background script -->
-            <button id='loginBtn'>Log in</button>
-            <button id='clear'>logout!</button>
-            <!-- fake login interaction with background script -->
         </div>
+        <div class="container loggedInView">
+            <div class="col-md-7 col-lg-5">
+                <h1>1 Tiny Link</h1>
+                <h1>Welcome back</h1>
+                <button id='logOutBtn'>logout!</button>
+            </div>
+        </div>
+        <!-- fake login interaction with background script -->
         <script type="text/javascript" src="popup.js"></script>
     </body>
 </html>
