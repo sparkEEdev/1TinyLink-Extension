@@ -1,30 +1,12 @@
-const pattern: RegExp = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm
+import { Link, /* ErrorResponse, */ ResponseChannelPort, RenderContexts } from 'resources/interfaces/interfaces';
+import { isValidURL/* , copyToClipboard */ } from 'resources/helpers';
+
 const contextTitle: string = 'Make it Tiny!';
 const contextId: string = "1tl";
 const contextsArr: string[] = [ "selection", "link", "image", "editable" ];
 const lifeCycles: string[] = [ "Temporary", "Destructive", "Permanent" ];
-
-const isValidURL = (value: string): boolean => {
-
-    let regex: RegExp = new RegExp(pattern);
-
-    return regex.test(value);
-}
-
-const copyToClipboard = (url: string): void => {
-
-    let copyElement: HTMLTextAreaElement = document.createElement('textarea');
-
-    copyElement.value = url;
-
-    document.body.appendChild(copyElement);
-
-    copyElement.select();
-
-    document.execCommand('copy');
-
-    document.body.removeChild(copyElement);
-}
+const responseChannelPortName: ResponseChannelPort = { name: 'responseChannelPort' };
+let responseChannelPort: chrome.runtime.Port;
 
 const makeTiny = ( url: string, lifeCycle: string ): void => {
     
@@ -36,14 +18,18 @@ const makeTiny = ( url: string, lifeCycle: string ): void => {
         // copyToClipboard(url); 
 
         // display response
-        // message();
+        let data: Link = {
+            link: url
+        }
+        // responseChannelPort.postMessage(data);
+        responseChannelPort.postMessage(data);
 }
 
-const message = (): void => {
-    chrome.tabs.query({ active: true }, (tabs) => {
-        chrome.tabs.sendMessage(tabs[0].id || 0, { action: 'display-modal' }, () => {});
-    })
-}
+chrome.runtime.onConnect.addListener((port) => {
+    if ( port.name === responseChannelPortName.name ) {
+        responseChannelPort = port;
+    }
+});
 
 const handle = (context: chrome.contextMenus.OnClickData, lifeCycle: string ): void => {
     
@@ -81,10 +67,7 @@ const handle = (context: chrome.contextMenus.OnClickData, lifeCycle: string ): v
     }
 }
 
-const renderContexts = (
-        { contextTitle, contextId, contexts, childContexts = [], handler }: 
-        { contextTitle: string, contextId: string, contexts: string[], childContexts: string[], handler: ( context: chrome.contextMenus.OnClickData, cycle: string ) => void } 
-    ): void => {
+const renderContexts = ({ contextTitle, contextId, contexts, childContexts = [], handler }: RenderContexts ): void => {
 
     chrome.contextMenus.create({
         title: contextTitle,
@@ -127,6 +110,7 @@ chrome.storage.onChanged.addListener( (changes) => {
 })
 
 chrome.runtime.onInstalled.addListener(() => {
+
     renderContexts({
         contextTitle: contextTitle,
         contextId: contextId,
@@ -134,4 +118,17 @@ chrome.runtime.onInstalled.addListener(() => {
         childContexts: lifeCycles,
         handler: handle
     });
+
+    chrome.storage.local.get(['token'], res => {
+        if ( res.token && res.token.length > 0 ) {
+            chrome.contextMenus.update(contextId, {
+                enabled: true,
+            });
+        } else {
+            chrome.contextMenus.update(contextId, {
+                enabled: false,
+            })
+        }
+    })
+
 })
