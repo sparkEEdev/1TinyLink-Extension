@@ -5,6 +5,7 @@ const contextTitle: string = 'Make it Tiny!';
 const contextId: string = "1tl";
 const contextsArr: string[] = [ "selection", "link", "image", "editable" ];
 const lifeCycles: string[] = [ "Temporary", "Destructive", "Permanent" ];
+const validatableContexts: string[] = [ "selectionText", "srcUrl", "linkUrl" ];
 const responseChannelPortName: ResponseChannelPort = { name: 'responseChannelPort' };
 let responseChannelPort: chrome.runtime.Port;
 
@@ -33,37 +34,14 @@ chrome.runtime.onConnect.addListener((port) => {
 
 const handle = (context: chrome.contextMenus.OnClickData, lifeCycle: string ): void => {
     
-    // context.selectionText
-    if ( context.selectionText && isValidURL(context.selectionText) )
-    {
-        return makeTiny(context.selectionText, lifeCycle);
-    }
+    for ( let i in validatableContexts ) {
 
-    // context.srcUrl
-    if ( context.srcUrl && isValidURL(context.srcUrl) )
-    {
-        return makeTiny(context.srcUrl, lifeCycle);
-    }
+        let url = context[validatableContexts[i]];
 
-    // context.linkUrl
-    if ( context.linkUrl && isValidURL(context.linkUrl)) 
-    {
-        return makeTiny(context.linkUrl, lifeCycle);
-    }
-
-     // context.mediaType === 'image' - srcUrl/linkUrl
-    if ( context.mediaType && context.mediaType === 'image' ) 
-    {   
-        // temporarily disabled for simplicity sake
-        /* if ( context.srcUrl && isValidURL(context.srcUrl) ) 
-        {
-            return makeTiny(context.srcUrl);
-        } */
-
-        if ( context.linkUrl && isValidURL(context.linkUrl) ) 
-        {
-            return makeTiny(context.linkUrl, lifeCycle);
-        } 
+        if ( url && isValidURL(url) ) {
+            return makeTiny(url, lifeCycle);
+        }
+        
     }
 }
 
