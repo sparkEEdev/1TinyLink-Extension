@@ -1,11 +1,23 @@
-/* let modal: HTMLElement = document.createElement('div');
-modal.classList.add('oneTinyModal');
-modal.innerText = 'Link created and copied to clipboard!';
-document.body.appendChild(modal); */
+import { ResponseChannelPort } from 'resources/interfaces/interfaces';
+import 'resources/extensions/HTMLElementExtensions';
 
-chrome.runtime.onMessage.addListener((request, _sender, _response) => {
+// reusable responseModal element
+const responseModal: HTMLElement = document.createElement('div');
+responseModal.classList.add('oneTinyModal');
+document.body.appendChild(responseModal);
 
-    if ( request.action === 'display-modal' ) {
-        // logic to display a message modal
+const responseChannelPortName: ResponseChannelPort = { name: 'responseChannelPort' };
+const responseChannelPort = chrome.runtime.connect(responseChannelPortName);
+
+responseChannelPort.onMessage.addListener(( message ) => {
+    
+    if ( message.link ) {
+        responseModal.innerText = message.link;
+        responseModal.fadeInOut();
+    }
+
+    if ( message.error ) {
+        responseModal.innerText = message.error
+        responseModal.fadeInOut();
     }
 })
