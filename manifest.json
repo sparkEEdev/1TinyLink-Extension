@@ -15,7 +15,7 @@
 		{
 			"matches": ["<all_urls>"],
 			"js": ["content.js"],
-			"css": ["resources/style.css"]
+			"css": ["resources/css/style.css"]
 		}
 	],
 	"web_accessible_resources": []
