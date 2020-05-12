@@ -3,17 +3,18 @@
     </head>
     <body>
         <!-- finish styles -->
-        <!-- fake login interaction with background script -->
         <div class="container logInView">
             <div class="col-md-7 col-lg-5">
                 <h1>1 Tiny Link Login</h1>
                     <div class="row">
-                        <div class="col-md-12">
-                            <input type="text" placeholder="E-Mail Address" name="email" id="email">
-                        </div>
-                        <div class="col-md-12">
-                            <input type="password" placeholder="Password" name="password" id="password">
-                        </div>
+                        <form>
+                            <div class="col-md-12">
+                                <input type="text" placeholder="E-Mail Address" name="email" id="email">
+                            </div>
+                            <div class="col-md-12">
+                                <input type="password" placeholder="Password" name="password" id="password">
+                            </div>
+                        </form>
                         <div class="col-md-12">
                             <button class="btn btn--primary type--uppercase" id='loginBtn' type="submit">Login</button>
                         </div>
@@ -30,7 +31,6 @@
                 <button id='logOutBtn'>logout!</button>
             </div>
         </div>
-        <!-- fake login interaction with background script -->
         <script type="text/javascript" src="popup.js"></script>
     </body>
 </html>
