@@ -3,7 +3,7 @@
         "target": "es6",
         "sourceMap": true,
         "removeComments": true,
-        "lib": ["es2015", "es2017", "dom"],
+        "lib": ["es2015", "es2017", "dom", "es2019"],
         "strictNullChecks": true,
         "noImplicitThis": true,
         "noUnusedLocals": true,

@@ -6,7 +6,9 @@ module.exports = {
     entry: {
         content: path.resolve(__dirname, 'src', 'content.ts'),
         popup: path.resolve(__dirname, 'src', 'popup.ts'),
-        background: path.resolve(__dirname, 'src', 'background.ts')
+        background: path.resolve(__dirname, 'src', 'background.ts'),
+        "content/formIFrame": path.resolve(__dirname, 'src', 'content/formIFrame.ts'),
+        "content/responseIFrame": path.resolve(__dirname, 'src', 'content/responseIFrame.ts'),
     },
     output: {
         path: path.resolve(__dirname, 'build'),
@@ -31,8 +33,11 @@ module.exports = {
         new Dotenv(),
         new CopyPlugin([
             { from: './manifest.json', to: 'manifest.json', force: true },
+            { from: './images', to: 'images' },
             { from: './src/popup.html', to: 'popup.html', force: true },
-            { from: './src/resources', to: 'resources', force: true }
+            { from: './src/resources/css', to: 'resources/css', force: true },
+            { from: './src/content/formIFrame.html', to: 'content/formIFrame.html', force: true },
+            { from: './src/content/responseIFrame.html', to: 'content/responseIFrame.html', force: true }
         ]),
     ]
 }
