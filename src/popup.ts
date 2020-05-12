@@ -1,25 +1,45 @@
-import { Auth } from 'resources/interfaces/interfaces';
+import { Auth, AuthPayload } from 'resources/interfaces/interfaces';
 
-// fake api interaction for the background script
 const loginButton: HTMLButtonElement | null = document.querySelector('#loginBtn');
 const logOutBtn: HTMLButtonElement | null = document.querySelector('#logOutBtn');
 const logInView: HTMLElement | null = document.querySelector('.logInView');
 const loggedInView: HTMLElement | null = document.querySelector('.loggedInView');
+const api = process.env.API_URL;
 
-const login = (): void => {
+const getAuthPayload = (data): AuthPayload => {
 
-    let data: Auth = {
-        name: 'xxx',
-        token: 'xxx'
+    return {
+        email: data.email,
+        password: data.password,
     }
-
-    chrome.storage.local.set(data)
-    // save token
-    // change popup UI
 }
 
-loginButton?.addEventListener('click', () => {
-    login();
+const login = async (): Promise<void> => {
+
+    let form: HTMLFormElement | null | undefined = logInView?.querySelector('form');
+    
+    if (!form) return;
+
+    let payload: AuthPayload = getAuthPayload(Object.fromEntries(new FormData(form).entries()));
+    let headers = new Headers({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    });
+
+    let response: Auth = await fetch(`${api}login`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload)
+    })
+        .then( res => res.json())
+        .catch( err => console.log(err) );
+
+    chrome.storage.local.set(response);
+
+}
+
+loginButton?.addEventListener('click', async () => {
+    await login();
 })
 
 logOutBtn?.addEventListener('click', () => {
@@ -60,4 +80,3 @@ if ( logInView && loggedInView ) {
         }
     })
 }
-// fake api interaction for the background script
