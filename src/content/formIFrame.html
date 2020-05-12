@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../resources/css/frame.css"></link>
+    </head>
+    <body>
+        <div class="oneTinyModal" id="tinyFormModal">
+            <form>
+                <label for="password">Password:</label>
+                <input type="password" name="password">
+                <input type="hidden" name="link" id="link">
+                <label for="temporary" class="lifeCycleLabel">temporary</label>
+                <input type="radio" name="life_cycle" value="temporary" checked>
+                <label for="destructive" class="lifeCycleLabel">destructive</label>
+                <input type="radio" name="life_cycle" value="destructive">
+                <label for="permanent" class="lifeCycleLabel">permanent</label>
+                <input type="radio" name="life_cycle" value="permanent">
+                <label for="days" id="daysInputLabel">days (1 - 60):</label>
+                <input type="number" name="days" min="1" max="60" step="1" value="1">
+                <a id="tinySubmit">Submit</a><a id="tinyCancel">Cancel</a>
+            </form>
+        </div>
+    </body>
+    <script type="text/javascript" src="../content/formIFrame.js"></script>
+</html>
