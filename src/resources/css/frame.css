@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
+
+.oneTinyModal {
+    color: white;
+    padding: 20px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.form {
+    margin: 0px;
+}
+
+#tinyResponseModal {
+    text-align: center;
+}
+
+#tinyFormModal form {
+    margin: 0px;
+    display: grid;
+    grid-template-columns: 80px 80px 80px 80px 80px 80px;
+    grid-template-rows: 30px 30px;
+    grid-template-areas: 
+        "header header header header header header"
+        "main main main main main main"
+        "footer footer footer footer footer footer";
+}
+
+#tinyFormModal input[type="password"] {
+    grid-area: header;
+    grid-column-start: 2;
+    grid-column-end: 4;
+}
+
+#tinyFormModal label[for="password"] {
+    grid-area: header;
+    grid-column-end: 2;
+    align-self: center;
+}
+
+#tinyFormModal input[type="radio"] {
+    grid-area: main;
+    grid-column: auto;
+    align-self: center;
+    justify-self: left;
+}
+
+#tinyFormModal .lifeCycleLabel {
+    grid-area: main;
+    grid-column: auto;
+    text-transform: capitalize;
+    align-self: center;
+}
+
+#tinyFormModal input[type="number"] {
+    grid-area: header;
+    grid-column: auto;
+    grid-column-start: 6;
+    grid-column-end: 6;
+}
+
+#tinyFormModal #daysInputLabel {
+    grid-area: header;
+    grid-column: auto;
+    grid-column-start: 4;
+    grid-column-end: 6;
+    justify-self: center;
+    align-self: center;
+}
+
+#tinyFormModal input {
+    border-radius: 10px;
+    border: 0px;
+    padding-left: 10px;
+    outline: none;
+    color:black;
+}
+
+#tinyFormModal #tinySubmit, #tinyCancel {
+    cursor: pointer;
+    background: white;
+    border-radius: 5px;
+    padding: 5px;
+    text-decoration: none;
+    color: #263e48;
+    text-align: center;
+    grid-area: footer;
+}
+
+#tinyFormModal #tinySubmit {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    margin-right: 5px;
+}
+
+#tinyFormModal #tinyCancel {
+    grid-column-start: 2;
+    grid-column-end: 2;
+}
+
+#tinyFormModal #tinySubmit:hover, #tinyCancel:hover {
+    background-color: #138fc3;
+    color: #fff;
+}

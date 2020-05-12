@@ -1,15 +1,21 @@
-.oneTinyModal {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    z-index: -99;
-    color: white;
-    padding: 20px;
+.tinyFrame {
+    z-index: -9999;
     opacity: 0;
+    padding: 0px;
+    width: 550px;
+    border: none; 
+    position: fixed;
     bottom: 15px;
     right: 15px;
     font-size: 15px;
-    background-color: #001d29d9;
+    background-color: rgba(0, 29, 41, 0.85);
     border-radius: 10px;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out 0s;
+    height: 130px;
+    min-height: initial !important;
+}
+
+#responseFrame {
+    width: 300px;
+    height: 60px;
 }

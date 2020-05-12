@@ -15,6 +15,7 @@ export interface LinkPayload {
     link: string;
     life_cycle: string;
     days?: number;
+    password?: string;
 }
 
 export interface Link {
@@ -23,16 +24,4 @@ export interface Link {
 
 export interface ErrorResponse {
     error: string;
-}
-
-export interface ResponseChannelPort {
-    name: 'responseChannelPort'
-}
-
-export interface RenderContexts {
-    contextTitle: string;
-    contextId: string;
-    contexts: string[];
-    childContexts: string[];
-    handler: ( context: chrome.contextMenus.OnClickData, cycle: string ) => void; 
 }

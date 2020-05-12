@@ -19,3 +19,21 @@ export const copyToClipboard = (url: string): void => {
 
     document.body.removeChild(copyElement);
 }
+
+export const getToken = async (): Promise<string> => {
+
+    return new Promise( resolve => {
+        chrome.storage.local.get(['token'], (result) => resolve(result.token));
+    });
+}
+
+export const getHeaders = async(): Promise<Headers> => { 
+
+    let token = await getToken();
+
+    return new Headers({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    });
+};
