@@ -1,5 +1,5 @@
 import { Link, LinkPayload } from 'resources/interfaces/interfaces';
-import { isValidURL, copyToClipboard, getHeaders } from 'resources/helpers';
+import { isValidURL, getHeaders } from 'resources/helpers';
 
 const contextTitle: string = 'Make it Tiny!';
 const contextId: string = "1tl";
@@ -7,24 +7,18 @@ const contextsArr: string[] = [ "selection", "link", "image", "editable" ];
 const validatableContexts: string[] = [ "selectionText", "srcUrl", "linkUrl" ];
 const api = process.env.API_URL;
 
+if (!api) {
+    throw new Error('API_URL is missing.');
+}
+
 const postForm = async ( data: LinkPayload ): Promise<Response> => {
 
     let headers = await getHeaders();
 
-    return await fetch(`${api}process`, {
+    return await fetch(`${api}/api/v1/process`, {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(data),
-    });
-}
-
-const refreshToken = async (): Promise<void> => {
-
-    let headers = await getHeaders();
-
-    await fetch(`${api}refresh`, {
-        method: 'POST',
-        headers: headers,
     });
 }
 
@@ -34,16 +28,14 @@ const makeTiny = async ( data: LinkPayload, tabId: number ): Promise<void> => {
 
     if (response.status === 401) {
 
-        refreshToken();
+        chrome.storage.local.remove(['name', 'token', 'subTier', 'token']);
 
-        return chrome.tabs.sendMessage(tabId, { tokenRefresh: true }, (res) => console.log( res ));
+        return chrome.tabs.sendMessage(tabId, { tokenExpired: true }, (res) => console.log( res ));
     }
 
     let json: any = await response.json();
 
     let tinyLink: Link = { link: json.link };
-
-    copyToClipboard(tinyLink.link);
 
     chrome.tabs.sendMessage(tabId, tinyLink, () => {});
 }
@@ -68,16 +60,16 @@ chrome.runtime.onMessage.addListener( ( message, sender, res ) => {
     // and return success message with payload
     let tab = sender.tab;
 
-    if (!(tab && tab.id)) return;
+    if (!tab?.id) return
 
-    if ( message.form ) {
+    if ( message.submitForm ) {
         // make the request
-        makeTiny(message.form, tab.id);
+        makeTiny(message.submitForm, tab.id);
 
         return res({ success: 'form received' });
     }
 
-    if ( message.hide ) {
+    if ( message.hideForm ) {
         // send message to hide the element in the tab
         chrome.tabs.sendMessage(tab.id, message, (res) => {
             console.log(res);
@@ -85,7 +77,13 @@ chrome.runtime.onMessage.addListener( ( message, sender, res ) => {
         return res({ success: 'hidden via bg' });
     }
 
-    res({ failure: 'empty message in background script?'});
+    if ( message.copyButtonClicked ) {
+        chrome.tabs.sendMessage(tab.id, { hideResponse: true }, (res) => {
+            console.log(res);
+        });
+    }
+
+    res({ failure: 'Unknown message in the background script.'});
 });
 
 chrome.storage.onChanged.addListener( (changes) => {
@@ -144,7 +142,7 @@ chrome.contextMenus.onClicked.addListener((context) => {
         let activeTab = tabs[0];
         if (!activeTab.id) return;
 
-        chrome.tabs.sendMessage(activeTab.id, { request: 'link', url: url  }, (res) => {
+        chrome.tabs.sendMessage(activeTab.id, { requestForm: 'link', url: url  }, (res) => {
             console.log(res);
         });
     });
