@@ -19,6 +19,18 @@ body {
 
 #tinyResponseModal {
     text-align: center;
+    padding: 0px;
+}
+
+#tinyResponseModal {
+    margin: 0px;
+    display: grid;
+    grid-template-columns: 60px 60px 60px 60px;
+    grid-template-rows: 30px 30px;
+    grid-template-areas: 
+        "header header header"
+        "main main main";
+    padding:0 5px;
 }
 
 #tinyFormModal form {
@@ -84,11 +96,11 @@ body {
 
 #tinyFormModal #tinySubmit, #tinyCancel {
     cursor: pointer;
-    background: white;
+    background-color: #8089ff;
     border-radius: 5px;
     padding: 5px;
     text-decoration: none;
-    color: #263e48;
+    color: white;
     text-align: center;
     grid-area: footer;
 }
@@ -105,6 +117,43 @@ body {
 }
 
 #tinyFormModal #tinySubmit:hover, #tinyCancel:hover {
-    background-color: #138fc3;
+    background-color: #f179c5;
     color: #fff;
+}
+
+#tinyInput {
+    margin-left: 5px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    align-self: center;
+    border: 0;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 160px;
+}
+
+#copyButton {
+    margin-right: 5px;
+    grid-column-start: 4;
+    grid-column-end: 6;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    align-self: center;
+    border: 0;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    background-color: #8089ff;
+}
+
+#copyButton:hover {
+    background-color: #f179c5;
 }

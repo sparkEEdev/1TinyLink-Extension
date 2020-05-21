@@ -1,0 +1,109 @@
+body {
+    margin: 0px;
+    padding: 10px;
+    width: 250px;
+}
+
+#loggedInView, #logInView {
+    display: grid;
+    grid-template-columns: 50px 50px 50px 50px 50px;
+    /* grid-template-rows: auto; */
+    grid-template-rows: 50px 50px 50px;
+    grid-template-areas: 
+    "header header header"
+    "main main main"
+    "extra extra extra"
+    "footer footer footer";
+}
+
+#loggedInView button {
+    grid-area: footer;
+    grid-column: 5;
+    height: 30px;
+    width: 60px;
+    grid-column-start: 4;
+    grid-column-end: 6;
+    justify-self: end;
+    align-self: end;
+    border: 0;
+    border-radius: 5px;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+
+button {
+    background-color: #8089ff;
+    border: 0;
+    border-radius: 5px;
+    text-transform: capitalize;
+    cursor: pointer;
+    color: #fff;
+}
+button:hover {
+    background-color: #f179c5;
+    color: #fff;
+}
+#loggedInView h2 {
+    grid-area: main;
+    grid-column-end: 6;
+    justify-self: center;
+    align-self: start;
+}
+
+#loggedInView h3 {
+    grid-area: header;
+    justify-self: center;
+    grid-column: 3;
+    grid-column-start: 1;
+    grid-column-end: 6;
+}
+
+#loggedInView #tier {
+    grid-area: extra;
+    align-self: end;
+    grid-column: 3;
+    grid-column-start: 1;
+    grid-column-end: 6;
+}
+
+#loggedInView h4 {
+    grid-area: footer;
+    grid-column: 1;
+    grid-column-end: 4;
+    margin: 0;
+    align-self: end;
+    justify-self: start;
+    color: #0000004d;
+}
+
+#logInView h2 {
+    grid-area: header;
+    align-self: start;
+    margin: 0;
+    grid-column-end: 5;
+    grid-column-start: 2;
+}
+
+#logInView form {
+    grid-area: main;
+}
+
+#logInView form input {
+    padding: 3px;
+}
+
+#logInView button {
+    grid-area: main;
+    grid-column-start: 5;
+    grid-column-end: 5;
+    height: 30px;
+    align-self: center;
+}
+
+#reg {
+    grid-area: extra;
+    grid-column-start: 1;
+    grid-column-end: 6;
+    align-self: end;
+    justify-self: center;
+}
