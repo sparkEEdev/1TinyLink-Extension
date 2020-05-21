@@ -12,13 +12,13 @@ submitButton?.addEventListener('click', () => {
 
     let jsonData = Object.fromEntries(data.entries());
 
-    chrome.runtime.sendMessage({ form: jsonData }, (response) => {
+    chrome.runtime.sendMessage({ submitForm: jsonData }, (response) => {
 
         if (!response) return;
 
         console.log(response, 'successful submit!');
 
-        chrome.runtime.sendMessage({ hide: 'form' }, (response) => {
+        chrome.runtime.sendMessage({ hideForm: 'form' }, (response) => {
             formElement?.reset();
             console.log(response);
         });
@@ -27,16 +27,15 @@ submitButton?.addEventListener('click', () => {
 })
 
 cancelButton?.addEventListener('click', () => {
-    chrome.runtime.sendMessage({ hide: 'form' }, (response) => {
+    chrome.runtime.sendMessage({ hideForm: 'form' }, (_response) => {
         formElement?.reset();
-        console.log(response);
     });
 })
 
 chrome.runtime.onMessage.addListener( ( message, _sender, res ): void => {
 
-    if ( message.request && message.request === 'link' ) {
-        //just append the validated url to the form
+    if ( message.requestForm ) {
+        // just append the validated url to the form
         
         hiddenLinkInput?.setAttribute('value', message.url);
 
